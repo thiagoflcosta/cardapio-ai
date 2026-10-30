@@ -1,0 +1,107 @@
+{
+  "restaurante": "Brasa Burger & Co.",
+  "itens": [
+    {
+      "nome": "Brasa Clássico",
+      "descricao": "Queijo prato, alface, tomate e molho da casa",
+      "categoria": "lanche",
+      "preco": 32.9,
+      "tags": []
+    },
+    {
+      "nome": "Cheddar Bacon",
+      "descricao": "Cheddar cremoso, bacon crocante e cebola caramelizada",
+      "categoria": "lanche",
+      "preco": 36.9,
+      "tags": []
+    },
+    {
+      "nome": "Smash Duplo",
+      "descricao": "2 smash de 90g, queijo e picles",
+      "categoria": "lanche",
+      "preco": 34.9,
+      "tags": []
+    },
+    {
+      "nome": "Burger Vegano",
+      "descricao": "Hambúrguer de grão-de-bico, maionese vegana e rúcula",
+      "categoria": "lanche",
+      "preco": 35.9,
+      "tags": ["vegano"]
+    },
+    {
+      "nome": "Chicken Crispy",
+      "descricao": "Frango empanado, salada e maionese de ervas",
+      "categoria": "lanche",
+      "preco": 31.9,
+      "tags": []
+    },
+    {
+      "nome": "Brasa Pimenta",
+      "descricao": "Jalapeño, pepper jack e molho chipotle",
+      "categoria": "lanche",
+      "preco": 37.9,
+      "tags": ["picante"]
+    },
+    {
+      "nome": "Batata frita",
+      "categoria": "porcao",
+      "preco": null,
+      "variacoes": [{"nome": "P", "preco": 14.0}, {"nome": "G", "preco": 22.0}],
+      "tags": []
+    },
+    {
+      "nome": "Batata rústica com alecrim",
+      "categoria": "porcao",
+      "preco": 24.0,
+      "tags": []
+    },
+    {
+      "nome": "Onion rings",
+      "categoria": "porcao",
+      "preco": null,
+      "tags": [],
+      "precisa_revisao": true,
+      "motivo_revisao": "preço sob consulta"
+    },
+    {
+      "nome": "Combo Brasa",
+      "descricao": "Brasa Clássico + batata P + refri lata",
+      "categoria": "combo",
+      "preco": 44.9,
+      "tags": []
+    },
+    {
+      "nome": "Combo Duplo",
+      "descricao": "2 Smash Duplo + batata G + 2 refri lata",
+      "categoria": "combo",
+      "preco": 79.9,
+      "tags": []
+    },
+    {
+      "nome": "Refri lata",
+      "categoria": "bebida",
+      "preco": 6.5,
+      "tags": []
+    },
+    {
+      "nome": "Milkshake 400ml",
+      "descricao": "Chocolate, morango ou doce de leite",
+      "categoria": "bebida",
+      "preco": 19.9,
+      "tags": []
+    },
+    {
+      "nome": "Chopp artesanal 500ml",
+      "categoria": "bebida",
+      "preco": 18.0,
+      "tags": ["contem_alcool"]
+    },
+    {
+      "nome": "Brownie com sorvete",
+      "categoria": "sobremesa",
+      "preco": 16.9,
+      "tags": []
+    }
+  ]
+}

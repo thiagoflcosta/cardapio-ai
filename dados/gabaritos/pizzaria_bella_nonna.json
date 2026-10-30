@@ -1,0 +1,84 @@
+{
+  "restaurante": "Pizzaria Bella Nonna",
+  "itens": [
+    {
+      "nome": "Margherita",
+      "descricao": "Molho de tomate, muçarela, tomate e manjericão fresco",
+      "categoria": "pizza",
+      "preco": null,
+      "variacoes": [{"nome": "P", "preco": 39.9}, {"nome": "M", "preco": 49.9}, {"nome": "G", "preco": 59.9}],
+      "tags": []
+    },
+    {
+      "nome": "Calabresa apimentada",
+      "descricao": "Calabresa, cebola roxa e pimenta calabresa",
+      "categoria": "pizza",
+      "preco": null,
+      "variacoes": [{"nome": "P", "preco": 42.9}, {"nome": "M", "preco": 52.9}, {"nome": "G", "preco": 62.9}],
+      "tags": ["picante"]
+    },
+    {
+      "nome": "Quatro Queijos",
+      "descricao": "Muçarela, provolone, gorgonzola e parmesão",
+      "categoria": "pizza",
+      "preco": null,
+      "variacoes": [{"nome": "P", "preco": 45.9}, {"nome": "M", "preco": 55.9}, {"nome": "G", "preco": 65.9}],
+      "tags": []
+    },
+    {
+      "nome": "Vegetariana da Nonna",
+      "descricao": "Abobrinha, berinjela, pimentão, champignon e muçarela",
+      "categoria": "pizza",
+      "preco": null,
+      "variacoes": [{"nome": "P", "preco": 44.9}, {"nome": "M", "preco": 54.9}, {"nome": "G", "preco": 64.9}],
+      "tags": ["vegetariano"]
+    },
+    {
+      "nome": "Chocolate com morango",
+      "descricao": "Pizza doce, tamanho único, 6 fatias",
+      "categoria": "pizza",
+      "preco": 46.0,
+      "tags": []
+    },
+    {
+      "nome": "Romeu e Julieta",
+      "descricao": "Pizza doce, tamanho único, 6 fatias",
+      "categoria": "pizza",
+      "preco": 44.0,
+      "tags": []
+    },
+    {
+      "nome": "Borda recheada de catupiry ou cheddar",
+      "descricao": "Qualquer tamanho",
+      "categoria": "adicional",
+      "preco": 8.0,
+      "tags": []
+    },
+    {
+      "nome": "Refrigerante",
+      "categoria": "bebida",
+      "preco": null,
+      "variacoes": [{"nome": "lata 350ml", "preco": 6.0}, {"nome": "2 litros", "preco": 14.0}],
+      "tags": []
+    },
+    {
+      "nome": "Suco natural 500ml",
+      "descricao": "Laranja, uva ou maracujá",
+      "categoria": "bebida",
+      "preco": 10.0,
+      "tags": []
+    },
+    {
+      "nome": "Cerveja long neck",
+      "categoria": "bebida",
+      "preco": 11.0,
+      "tags": ["contem_alcool"]
+    },
+    {
+      "nome": "Água sem gás",
+      "categoria": "bebida",
+      "preco": 4.0,
+      "tags": []
+    }
+  ]
+}

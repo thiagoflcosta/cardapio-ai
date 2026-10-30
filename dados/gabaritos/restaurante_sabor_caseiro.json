@@ -1,0 +1,92 @@
+{
+  "restaurante": "Restaurante Sabor Caseiro",
+  "itens": [
+    {
+      "nome": "Prato do dia",
+      "descricao": "Arroz, feijão, bife acebolado, farofa e salada. De segunda a sexta",
+      "categoria": "prato_principal",
+      "preco": 24.9,
+      "tags": []
+    },
+    {
+      "nome": "Frango grelhado",
+      "descricao": "Acompanha arroz, feijão e salada",
+      "categoria": "prato_principal",
+      "preco": 27.5,
+      "tags": []
+    },
+    {
+      "nome": "Strogonoff de frango",
+      "descricao": "Acompanha arroz, feijão e salada",
+      "categoria": "prato_principal",
+      "preco": 26.0,
+      "tags": []
+    },
+    {
+      "nome": "Filé de tilápia com legumes",
+      "descricao": "Acompanha arroz, feijão e salada",
+      "categoria": "prato_principal",
+      "preco": 34.0,
+      "tags": ["sem_gluten"]
+    },
+    {
+      "nome": "Omelete de queijo e espinafre",
+      "descricao": "Acompanha arroz, feijão e salada",
+      "categoria": "prato_principal",
+      "preco": 23.0,
+      "tags": ["vegetariano"]
+    },
+    {
+      "nome": "Feijoada completa",
+      "descricao": "Serve 2. Só aos sábados",
+      "categoria": "prato_principal",
+      "preco": 69.9,
+      "tags": []
+    },
+    {
+      "nome": "Feijoada individual",
+      "descricao": "Só aos sábados",
+      "categoria": "prato_principal",
+      "preco": 39.9,
+      "tags": []
+    },
+    {
+      "nome": "Marmita",
+      "categoria": "prato_principal",
+      "preco": null,
+      "variacoes": [{"nome": "P", "preco": 18.0}, {"nome": "G", "preco": 22.0}],
+      "tags": []
+    },
+    {
+      "nome": "Pudim de leite",
+      "categoria": "sobremesa",
+      "preco": 9.0,
+      "tags": []
+    },
+    {
+      "nome": "Salada de frutas",
+      "categoria": "sobremesa",
+      "preco": 8.0,
+      "tags": ["sem_lactose"]
+    },
+    {
+      "nome": "Suco natural 400ml",
+      "descricao": "Laranja ou limão",
+      "categoria": "bebida",
+      "preco": 8.5,
+      "tags": []
+    },
+    {
+      "nome": "Refrigerante lata",
+      "categoria": "bebida",
+      "preco": 6.0,
+      "tags": []
+    },
+    {
+      "nome": "Caipirinha de limão",
+      "categoria": "bebida",
+      "preco": 16.0,
+      "tags": ["contem_alcool"]
+    }
+  ]
+}
