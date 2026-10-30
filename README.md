@@ -68,7 +68,7 @@ Cada linha é uma execução de `python -m cardapio_ai avaliar`. "Prontos" é a 
 
 | Data | Modelo | Prompt | Itens | Cobertura | Preço | Categoria | Prontos | Custo |
 |---|---|---|---|---|---|---|---|---|
-| _preencher_ | | v1 | 39 | | | | | |
+| 30/10/2026 | gpt-4o-mini | v1 | 39 | 97% | 100% | 95% | 92% | – |
 
 **Métricas**
 
