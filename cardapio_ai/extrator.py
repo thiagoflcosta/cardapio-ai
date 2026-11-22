@@ -4,7 +4,7 @@ Fluxo:
 1. pede o JSON ao modelo;
 2. valida com Pydantic;
 3. se falhar, devolve o erro ao modelo e pede correção (até max_tentativas);
-4. aplica as regras determinísticas de revisão.
+4. aplica as regras determinísticas de revisão e procura itens esquecidos.
 """
 from __future__ import annotations
 
@@ -15,9 +15,9 @@ from dataclasses import dataclass, field
 from pydantic import ValidationError
 
 from .llm import ProvedorLLM
-from .models import Cardapio
+from .models import Cardapio, schema_estrito
 from .prompts import SISTEMA, montar_pedido, montar_reparo
-from .regras import aplicar_regras
+from .regras import aplicar_regras, precos_orfaos
 
 
 class ErroExtracao(Exception):
@@ -32,7 +32,10 @@ class ResultadoExtracao:
     tokens_saida: int
     segundos: float
     alertas: list[str] = field(default_factory=list)
+    possiveis_faltas: list[str] = field(default_factory=list)  # linhas com preço sem item
 
+
+SCHEMA = schema_estrito(Cardapio)
 
 _BLOCO_CODIGO = re.compile(r"```(?:json)?\s*(.*?)```", re.DOTALL)
 
@@ -57,7 +60,7 @@ def extrair_cardapio(
     ultimo_erro = ""
 
     for tentativa in range(1, max_tentativas + 1):
-        resposta = provedor.completar(SISTEMA, pedido)
+        resposta = provedor.completar(SISTEMA, pedido, schema=SCHEMA)
         tokens_entrada += resposta.tokens_entrada
         tokens_saida += resposta.tokens_saida
         segundos += resposta.segundos
@@ -68,7 +71,15 @@ def extrair_cardapio(
             pedido = montar_reparo(texto_cardapio, resposta.texto, ultimo_erro)
             continue
         cardapio, alertas = aplicar_regras(cardapio, texto_cardapio)
-        return ResultadoExtracao(cardapio, tentativa, tokens_entrada, tokens_saida, segundos, alertas)
+        return ResultadoExtracao(
+            cardapio,
+            tentativa,
+            tokens_entrada,
+            tokens_saida,
+            segundos,
+            alertas,
+            possiveis_faltas=precos_orfaos(cardapio, texto_cardapio),
+        )
 
     raise ErroExtracao(
         f"{max_tentativas} tentativas sem um cardápio válido. Último erro: {ultimo_erro[:500]}"

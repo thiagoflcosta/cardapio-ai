@@ -94,3 +94,40 @@ class ItemCardapio(BaseModel):
 class Cardapio(BaseModel):
     restaurante: str | None = None
     itens: list[ItemCardapio] = Field(min_length=1)
+
+
+# Palavras do JSON Schema que o modo estrito da OpenAI aceita. O resto (default, title,
+# minLength, minimum...) sai do schema enviado e continua sendo checado pelo Pydantic.
+_CHAVES_SCHEMA = {
+    "type", "properties", "required", "additionalProperties", "items", "enum", "anyOf", "$ref", "$defs",
+    "description",
+}
+
+
+def schema_estrito(modelo: type[BaseModel] = Cardapio) -> dict:
+    """JSON Schema do modelo no formato de saída estruturada estrita (OpenAI, Ollama e compatíveis).
+
+    No modo estrito o provedor só gera tokens que respeitam o schema: JSON quebrado, campo
+    faltando e categoria inventada deixam de acontecer na origem. Exigências do modo estrito:
+    todo campo é obrigatório (opcional vira "tipo ou null") e não pode haver campo extra.
+    """
+
+    def limpar(no):
+        if isinstance(no, list):
+            return [limpar(x) for x in no]
+        if not isinstance(no, dict):
+            return no
+        saida = {}
+        for chave, valor in no.items():
+            if chave not in _CHAVES_SCHEMA:
+                continue
+            if chave in ("properties", "$defs"):
+                saida[chave] = {nome: limpar(sub) for nome, sub in valor.items()}
+            else:
+                saida[chave] = limpar(valor)
+        if "properties" in saida:
+            saida["required"] = list(saida["properties"])
+            saida["additionalProperties"] = False
+        return saida
+
+    return limpar(modelo.model_json_schema())

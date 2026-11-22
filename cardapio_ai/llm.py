@@ -27,7 +27,31 @@ class RespostaLLM:
 class ProvedorLLM(Protocol):
     nome: str
 
-    def completar(self, sistema: str, usuario: str) -> RespostaLLM: ...
+    def completar(self, sistema: str, usuario: str, schema: dict | None = None) -> RespostaLLM: ...
+
+
+FORMATOS = ("schema", "json", "texto")
+
+
+def formato_resposta(formato: str, schema: dict | None) -> dict:
+    """Parâmetros extras do pedido para cada modo de saída.
+
+    - schema: saída estruturada estrita; o provedor garante JSON no formato do schema.
+    - json: só garante que é JSON válido; o formato depende do prompt.
+    - texto: nenhuma garantia; para provedores que não aceitam nenhum dos dois.
+    """
+    if formato not in FORMATOS:
+        raise ValueError(f"LLM_FORMATO deve ser um de {FORMATOS}, veio {formato!r}")
+    if formato == "schema" and schema is not None:
+        return {
+            "response_format": {
+                "type": "json_schema",
+                "json_schema": {"name": "cardapio", "strict": True, "schema": schema},
+            }
+        }
+    if formato in ("schema", "json"):
+        return {"response_format": {"type": "json_object"}}
+    return {}
 
 
 class ProvedorOpenAICompativel:
@@ -38,22 +62,23 @@ class ProvedorOpenAICompativel:
         modelo: str,
         base_url: str | None = None,
         api_key: str | None = None,
-        json_mode: bool = True,
+        formato: str = "schema",
         temperatura: float = 0.0,
         timeout: float = 120.0,
     ):
         from openai import OpenAI  # importado aqui para os testes não dependerem do pacote
 
         self.nome = modelo
-        self.json_mode = json_mode
+        formato_resposta(formato, None)  # falha cedo se o modo for inválido
+        self.formato = formato
         self.temperatura = temperatura  # 0 = respostas mais estáveis entre execuções
         # O Ollama ignora a chave, mas a biblioteca exige uma.
         self._cliente = OpenAI(base_url=base_url, api_key=api_key or "nao-usada", timeout=timeout)
 
-    def completar(self, sistema: str, usuario: str) -> RespostaLLM:
+    def completar(self, sistema: str, usuario: str, schema: dict | None = None) -> RespostaLLM:
         from openai import APIConnectionError, APIError
 
-        extras = {"response_format": {"type": "json_object"}} if self.json_mode else {}
+        extras = formato_resposta(self.formato, schema)
         inicio = time.perf_counter()
         try:
             resposta = self._cliente.chat.completions.create(
@@ -71,7 +96,8 @@ class ProvedorOpenAICompativel:
             ) from erro
         except APIError as erro:
             status = getattr(erro, "status_code", None)
-            raise ErroProvedor(f"O provedor recusou o pedido ({status or 'sem código'}): {erro}") from erro
+            dica = " Se ele não aceita JSON Schema, use LLM_FORMATO=json no .env." if self.formato == "schema" else ""
+            raise ErroProvedor(f"O provedor recusou o pedido ({status or 'sem código'}): {erro}.{dica}") from erro
         uso = resposta.usage
         return RespostaLLM(
             texto=resposta.choices[0].message.content or "",
@@ -85,13 +111,16 @@ class ProvedorFalso:
     """Devolve respostas prontas, na ordem. Serve para testes e para treinar sem gastar."""
 
     nome = "falso"
+    formato = "schema"
 
     def __init__(self, respostas: list[str]):
         self._respostas = list(respostas)
         self.chamadas: list[tuple[str, str]] = []
+        self.schemas: list[dict | None] = []
 
-    def completar(self, sistema: str, usuario: str) -> RespostaLLM:
+    def completar(self, sistema: str, usuario: str, schema: dict | None = None) -> RespostaLLM:
         self.chamadas.append((sistema, usuario))
+        self.schemas.append(schema)
         if not self._respostas:
             raise RuntimeError("ProvedorFalso ficou sem respostas")
         texto = self._respostas.pop(0)
@@ -108,9 +137,8 @@ def provedor_do_ambiente() -> ProvedorOpenAICompativel:
         raise SystemExit("Defina LLM_MODELO no arquivo .env (veja o .env.example).")
     if base_url is None and api_key is None:
         raise SystemExit("Sem LLM_BASE_URL, o padrão é a OpenAI: defina LLM_API_KEY no .env.")
-    return ProvedorOpenAICompativel(
-        modelo=modelo,
-        base_url=base_url,
-        api_key=api_key,
-        json_mode=os.getenv("LLM_JSON_MODE", "1") != "0",
-    )
+    # LLM_JSON_MODE=0 é a configuração antiga para "sem modo JSON"; LLM_FORMATO tem prioridade.
+    formato = os.getenv("LLM_FORMATO") or ("texto" if os.getenv("LLM_JSON_MODE") == "0" else "schema")
+    if formato not in FORMATOS:
+        raise SystemExit(f"LLM_FORMATO deve ser um de {', '.join(FORMATOS)}.")
+    return ProvedorOpenAICompativel(modelo=modelo, base_url=base_url, api_key=api_key, formato=formato)

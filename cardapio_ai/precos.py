@@ -9,7 +9,16 @@ from __future__ import annotations
 import re
 
 _NUMERO = re.compile(r"\d[\d.,]*\d|\d")
-_SEM_PRECO = ("consulta", "consultar", "variavel", "variável", "a combinar")
+_SEM_PRECO = ("consulta", "consultar", "consulte", "variavel", "variável", "a combinar")
+# Número seguido de unidade não é preço: "350ml", "2 litros", "160g", "18h", "8 fatias", "100%".
+_UNIDADE = re.compile(
+    r"\s*(?:ml|l|litros?|g|gr|gramas?|kg|h|hs|horas?|min|cm"
+    r"|fatias?|pessoas?|unidades?|un|pe[cç]as?)\b|\s*%",
+    re.IGNORECASE,
+)
+# Preço escrito de forma inequívoca: com centavos ("29,90", "12.50") ou depois de "R$".
+_CENTAVOS = re.compile(r"[.,]\d{2}$")
+_ANTES_REAIS = re.compile(r"r\$\s*$", re.IGNORECASE)
 
 
 def normalizar_preco(valor) -> float | None:
@@ -26,9 +35,35 @@ def normalizar_preco(valor) -> float | None:
 
 
 def precos_no_texto(texto: str) -> set[float]:
-    """Todos os números que parecem preço num texto. Usado para detectar preço inventado."""
-    precos = (_converter(numero) for numero in _NUMERO.findall(texto))
-    return {preco for preco in precos if preco is not None}
+    """Todos os números que podem ser preço num texto. Usado para detectar preço inventado.
+
+    Ignora números que são medidas ("350ml", "2 litros", "18h"): se o modelo usar um deles
+    como preço, a regra de alucinação pega.
+    """
+    return {preco for _, preco in _numeros_preco(texto)}
+
+
+def precos_explicitos(texto: str) -> set[float]:
+    """Só os preços escritos sem ambiguidade: com centavos ou depois de "R$".
+
+    "2 Smash Duplo" ou "serve 2" não entram. Usado para achar itens que o modelo esqueceu,
+    onde um falso alarme custa mais do que deixar passar um preço inteiro.
+    """
+    return {
+        preco
+        for achado, preco in _numeros_preco(texto)
+        if _CENTAVOS.search(achado.group()) or _ANTES_REAIS.search(texto[: achado.start()])
+    }
+
+
+def _numeros_preco(texto: str):
+    for achado in _NUMERO.finditer(texto):
+        # Com centavos é preço mesmo antes de letra: em "P 39,90 G 59,90" o G é tamanho.
+        if not _CENTAVOS.search(achado.group()) and _UNIDADE.match(texto, achado.end()):
+            continue
+        preco = _converter(achado.group())
+        if preco is not None:
+            yield achado, preco
 
 
 def _converter(numero: str) -> float | None:

@@ -1,0 +1,61 @@
+{
+  "restaurante": "Boteco do Zé",
+  "itens": [
+    {
+      "nome": "Frango a passarinho",
+      "categoria": "porcao",
+      "preco": null,
+      "variacoes": [{"nome": "Meia", "preco": 29.9}, {"nome": "Inteira", "preco": 49.9}],
+      "tags": []
+    },
+    {
+      "nome": "Calabresa acebolada",
+      "categoria": "porcao",
+      "preco": null,
+      "variacoes": [{"nome": "Meia", "preco": 27.9}, {"nome": "Inteira", "preco": 45.9}],
+      "tags": []
+    },
+    {
+      "nome": "Mandioca frita",
+      "categoria": "porcao",
+      "preco": null,
+      "variacoes": [{"nome": "Meia", "preco": 19.9}, {"nome": "Inteira", "preco": 32.9}],
+      "tags": ["sem_gluten"]
+    },
+    {"nome": "Bolinho de bacalhau", "descricao": "12 unidades", "categoria": "porcao", "preco": 54.9, "tags": []},
+    {"nome": "Torresmo pururuca", "categoria": "porcao", "preco": 34.9, "tags": []},
+    {
+      "nome": "Dadinho de tapioca",
+      "descricao": "Com geleia de pimenta",
+      "categoria": "porcao",
+      "preco": 28.9,
+      "tags": ["picante"]
+    },
+    {
+      "nome": "Picanha na chapa",
+      "descricao": "Com fritas e farofa. Serve 3",
+      "categoria": "porcao",
+      "preco": 129.9,
+      "tags": []
+    },
+    {
+      "nome": "Chapa vegana de cogumelos e legumes",
+      "categoria": "porcao",
+      "preco": 59.9,
+      "tags": ["vegano"]
+    },
+    {
+      "nome": "Chopp pilsen",
+      "categoria": "bebida",
+      "preco": null,
+      "variacoes": [{"nome": "300ml", "preco": 9.9}, {"nome": "500ml", "preco": 14.9}],
+      "tags": ["contem_alcool"]
+    },
+    {"nome": "Caipirinha de limão", "descricao": "Cachaça", "categoria": "bebida", "preco": 18.0, "tags": ["contem_alcool"]},
+    {"nome": "Caipiroska", "descricao": "Vodka", "categoria": "bebida", "preco": 23.0, "tags": ["contem_alcool"]},
+    {"nome": "Gin tônica", "categoria": "bebida", "preco": 29.9, "tags": ["contem_alcool"]},
+    {"nome": "Refrigerante lata", "categoria": "bebida", "preco": 6.5, "tags": []},
+    {"nome": "Água com gás", "categoria": "bebida", "preco": 5.0, "tags": []},
+    {"nome": "Balde com 5 long necks", "categoria": "bebida", "preco": 55.0, "tags": ["contem_alcool"]}
+  ]
+}

@@ -39,6 +39,7 @@ class ResultadoAvaliacao:
     tokens_saida: int = 0
     segundos: float = 0.0
     marcados_revisao: int = 0
+    possiveis_faltas: int = 0  # alertas de "preço sem item": o sistema desconfiando de omissão
     erro: str | None = None
 
 
@@ -134,6 +135,7 @@ def avaliar(pasta_dados: Path, provedor: ProvedorLLM) -> list[ResultadoAvaliacao
                 tokens_saida=extracao.tokens_saida,
                 segundos=extracao.segundos,
                 marcados_revisao=sum(i.precisa_revisao for i in extracao.cardapio.itens),
+                possiveis_faltas=len(extracao.possiveis_faltas),
             )
         )
     return resultados
@@ -142,8 +144,8 @@ def avaliar(pasta_dados: Path, provedor: ProvedorLLM) -> list[ResultadoAvaliacao
 def tabela_markdown(resultados: list[ResultadoAvaliacao]) -> str:
     cabecalho = (
         "| Cardápio | Itens (gabarito/extraídos) | Cobertura | Precisão | Preço | Categoria "
-        "| Tags | Prontos | Revisão | Tentativas | Tokens (entrada/saída) | Tempo |\n"
-        "|---|---|---|---|---|---|---|---|---|---|---|---|"
+        "| Tags | Prontos | Revisão | Alerta de falta | Tentativas | Tokens (entrada/saída) | Tempo |\n"
+        "|---|---|---|---|---|---|---|---|---|---|---|---|---|"
     )
     linhas = [cabecalho] + [_linha(r.arquivo, [r]) for r in resultados]
     if len(resultados) > 1:
@@ -159,6 +161,7 @@ def _linha(nome: str, resultados: list[ResultadoAvaliacao]) -> str:
         f"| {_pct(soma('preco_ok'), cas)} | {_pct(soma('categoria_ok'), cas)} "
         f"| {_pct(soma('tags_ok'), cas)} | {_pct(soma('prontos'), gab)} "
         f"| {sum(r.marcados_revisao for r in resultados)} "
+        f"| {sum(r.possiveis_faltas for r in resultados)} "
         f"| {sum(r.tentativas for r in resultados)} "
         f"| {sum(r.tokens_entrada for r in resultados)}/{sum(r.tokens_saida for r in resultados)} "
         f"| {sum(r.segundos for r in resultados):.1f}s |"

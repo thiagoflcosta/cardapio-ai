@@ -60,6 +60,8 @@ def _extrair(arquivo: Path, provedor: ProvedorLLM) -> int:
     )
     for alerta in resultado.alertas:
         print(f"  revisar: {alerta}", file=sys.stderr)
+    for alerta in resultado.possiveis_faltas:
+        print(f"  item faltando? {alerta}", file=sys.stderr)
     return 0
 
 
@@ -69,7 +71,8 @@ def _avaliar(dados: Path, saida: Path, detalhes: bool, provedor: ProvedorLLM) ->
         print(f"Nenhum par cardápio/gabarito encontrado em {dados}.", file=sys.stderr)
         return 1
 
-    print(f"Modelo: {provedor.nome} | Prompt: {VERSAO_PROMPT}\n")
+    formato = getattr(provedor, "formato", "-")
+    print(f"Modelo: {provedor.nome} | Prompt: {VERSAO_PROMPT} | Formato: {formato}\n")
     print(tabela_markdown(resultados))
     custo = _custo(resultados)
     if custo is not None:
@@ -87,6 +90,7 @@ def _avaliar(dados: Path, saida: Path, detalhes: bool, provedor: ProvedorLLM) ->
         "data": datetime.now().isoformat(timespec="seconds"),
         "modelo": provedor.nome,
         "prompt": VERSAO_PROMPT,
+        "formato": formato,
         "custo_usd": custo,
         "resultados": [asdict(r) for r in resultados],
     }

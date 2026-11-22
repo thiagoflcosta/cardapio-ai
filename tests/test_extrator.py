@@ -61,3 +61,15 @@ def test_marca_item_inventado_para_revisao():
     inventado = json.dumps({"itens": [{"nome": "Lasanha bolonhesa", "categoria": "prato_principal", "preco": 8}]})
     item = extrair_cardapio(TEXTO, ProvedorFalso([inventado])).cardapio.itens[0]
     assert "nome não encontrado" in item.motivo_revisao
+
+
+def test_avisa_quando_um_preco_do_cardapio_ficou_sem_item():
+    texto = TEXTO + "\nBorda recheada ... + R$ 9,50\nAberto das 18h, serve 2"
+    resultado = extrair_cardapio(texto, ProvedorFalso([VALIDO]))
+    assert len(resultado.possiveis_faltas) == 1
+    assert "9.50" in resultado.possiveis_faltas[0]
+    assert "Borda recheada" in resultado.possiveis_faltas[0]
+
+
+def test_sem_alerta_de_falta_quando_todos_os_precos_foram_usados():
+    assert extrair_cardapio(TEXTO, ProvedorFalso([VALIDO])).possiveis_faltas == []

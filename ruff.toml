@@ -1,0 +1,12 @@
+line-length = 120
+target-version = "py311"
+
+[lint]
+# E/F: erros e nomes não usados; I: ordem dos imports; UP: sintaxe moderna; B: armadilhas comuns.
+select = ["E", "F", "I", "UP", "B"]
+# UP042 trocaria (str, Enum) por StrEnum, que muda str(Categoria.PIZZA); não vale o risco agora.
+ignore = ["UP042"]
+
+[lint.per-file-ignores]
+# Reformatar as linhas do prompt mudaria o texto enviado ao modelo e invalidaria a comparação.
+"cardapio_ai/prompts.py" = ["E501"]

@@ -1,0 +1,46 @@
+{
+  "restaurante": "Lanchonete Esquina do Sabor",
+  "itens": [
+    {"nome": "Coxinha de frango", "categoria": "lanche", "preco": 7.5, "tags": []},
+    {"nome": "Esfiha de carne", "categoria": "lanche", "preco": 6.5, "tags": []},
+    {"nome": "Pastel", "descricao": "Queijo, carne ou pizza", "categoria": "lanche", "preco": 12.0, "tags": []},
+    {"nome": "Kibe", "categoria": "lanche", "preco": 7.0, "tags": []},
+    {
+      "nome": "X-Salada",
+      "categoria": "lanche",
+      "preco": null,
+      "variacoes": [{"nome": "Simples", "preco": 18.9}, {"nome": "Completo", "preco": 24.9}],
+      "tags": []
+    },
+    {
+      "nome": "X-Bacon",
+      "categoria": "lanche",
+      "preco": null,
+      "variacoes": [{"nome": "Simples", "preco": 22.9}, {"nome": "Completo", "preco": 28.9}],
+      "tags": []
+    },
+    {"nome": "Misto quente", "categoria": "lanche", "preco": 12.0, "tags": []},
+    {"nome": "Parmegiana de frango", "descricao": "Com arroz e fritas", "categoria": "prato_principal", "preco": 39.9, "tags": []},
+    {"nome": "Bife a cavalo", "descricao": "Com arroz e feijão", "categoria": "prato_principal", "preco": 36.5, "tags": []},
+    {"nome": "Prato kids", "descricao": "Nuggets e fritas", "categoria": "prato_principal", "preco": 24.0, "tags": []},
+    {"nome": "Mousse de maracujá", "categoria": "sobremesa", "preco": 9.9, "tags": []},
+    {
+      "nome": "Torta do dia",
+      "categoria": "sobremesa",
+      "preco": null,
+      "tags": [],
+      "precisa_revisao": true,
+      "motivo_revisao": "preço sob consulta"
+    },
+    {"nome": "Café expresso", "categoria": "bebida", "preco": 4.5, "tags": []},
+    {"nome": "Cappuccino", "categoria": "bebida", "preco": 8.9, "tags": []},
+    {
+      "nome": "Suco de laranja",
+      "categoria": "bebida",
+      "preco": null,
+      "variacoes": [{"nome": "300ml", "preco": 9.0}, {"nome": "500ml", "preco": 12.0}],
+      "tags": []
+    },
+    {"nome": "Cerveja lata 350ml", "categoria": "bebida", "preco": 7.5, "tags": ["contem_alcool"]}
+  ]
+}

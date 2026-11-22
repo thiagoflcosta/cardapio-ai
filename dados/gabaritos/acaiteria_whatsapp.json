@@ -1,0 +1,81 @@
+{
+  "restaurante": "Açaí da Praia",
+  "itens": [
+    {
+      "nome": "Açaí na tigela",
+      "descricao": "Acompanha granola e banana",
+      "categoria": "sobremesa",
+      "preco": null,
+      "variacoes": [{"nome": "300ml", "preco": 15.0}, {"nome": "500ml", "preco": 20.0}, {"nome": "700ml", "preco": 26.0}],
+      "tags": []
+    },
+    {
+      "nome": "Cupuaçu cremoso 500ml",
+      "categoria": "sobremesa",
+      "preco": 22.0,
+      "tags": []
+    },
+    {
+      "nome": "Leite ninho",
+      "categoria": "adicional",
+      "preco": 3.0,
+      "tags": []
+    },
+    {
+      "nome": "Nutella",
+      "categoria": "adicional",
+      "preco": 5.0,
+      "tags": []
+    },
+    {
+      "nome": "Morango",
+      "categoria": "adicional",
+      "preco": 4.0,
+      "tags": []
+    },
+    {
+      "nome": "Paçoca",
+      "categoria": "adicional",
+      "preco": 2.0,
+      "tags": []
+    },
+    {
+      "nome": "Barca de açaí",
+      "descricao": "Para 2 pessoas, com 4 adicionais",
+      "categoria": "sobremesa",
+      "preco": 49.9,
+      "tags": []
+    },
+    {
+      "nome": "Água de coco natural",
+      "categoria": "bebida",
+      "preco": 9.0,
+      "tags": []
+    },
+    {
+      "nome": "Suco detox",
+      "descricao": "Couve, limão e gengibre",
+      "categoria": "bebida",
+      "preco": 12.0,
+      "tags": []
+    },
+    {
+      "nome": "Refri lata",
+      "categoria": "bebida",
+      "preco": 6.0,
+      "tags": []
+    },
+    {
+      "nome": "Tapioca de frango c/ catupiry",
+      "categoria": "lanche",
+      "preco": 18.0,
+      "tags": []
+    },
+    {
+      "nome": "Tapioca de coco com leite condensado",
+      "categoria": "lanche",
+      "preco": 16.0,
+      "tags": ["vegetariano"]
+    }
+  ]
+}

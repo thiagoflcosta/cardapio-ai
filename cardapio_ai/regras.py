@@ -9,7 +9,7 @@ from __future__ import annotations
 import unicodedata
 
 from .models import Cardapio, ItemCardapio
-from .precos import precos_no_texto
+from .precos import precos_explicitos, precos_no_texto
 
 PRECO_MINIMO = 1.0
 PRECO_MAXIMO = 500.0
@@ -44,6 +44,27 @@ def aplicar_regras(cardapio: Cardapio, texto_original: str) -> tuple[Cardapio, l
         itens.append(item)
 
     return cardapio.model_copy(update={"itens": itens}), alertas
+
+
+def precos_orfaos(cardapio: Cardapio, texto_original: str) -> list[str]:
+    """Linhas do cardápio com preço que nenhum item extraído usa: provável item esquecido.
+
+    As outras regras pegam o que o modelo inventou; esta pega o que ele deixou de fora.
+    Só considera preços inequívocos (com centavos ou "R$") para não gerar falso alarme.
+    """
+    usados = {
+        preco
+        for item in cardapio.itens
+        for preco in [item.preco, *(v.preco for v in item.variacoes)]
+        if preco is not None
+    }
+    alertas = []
+    for linha in texto_original.splitlines():
+        sobrando = sorted(precos_explicitos(linha) - usados)
+        if sobrando:
+            valores = ", ".join(f"{p:.2f}" for p in sobrando)
+            alertas.append(f"preço {valores} sem item correspondente: \"{linha.strip()[:80]}\"")
+    return alertas
 
 
 def _motivos(
